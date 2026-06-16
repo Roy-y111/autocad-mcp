@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "autocad": {
+      "command": "python",
+      "args": ["<project-dir>\\main.py"],
+      "env": {}
+    }
+  }
+}

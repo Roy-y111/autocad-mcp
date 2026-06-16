@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# 輸出/暫存檔案（不需上傳）
+*.txt
+*.json
+*.xlsx
+*.csv
+
+# 保留設定範本
+!claude_mcp_config.json
+!requirements.txt
+
+# 本機設定（含個人路徑，不上傳）
+.claude/
+
+# 其他
+.DS_Store
+Thumbs.db
