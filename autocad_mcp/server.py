@@ -156,6 +156,18 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         types.Tool(
+            name="rename_layer",
+            description="重新命名圖層（例如將中文圖層名稱改為英文，避免 Dynamo 等節點不支援中文圖層名稱）",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "old_name": {"type": "string", "description": "目前的圖層名稱"},
+                    "new_name": {"type": "string", "description": "新的圖層名稱"},
+                },
+                "required": ["old_name", "new_name"],
+            },
+        ),
+        types.Tool(
             name="set_color",
             description="設定目前繪圖顏色（ACI 色碼 1-255，1=紅 2=黃 3=綠 5=藍 7=白）",
             inputSchema={
@@ -223,6 +235,8 @@ async def call_tool(name: str, arguments: dict) -> list[types.TextContent]:
                 result = tools.list_layers()
             case "set_layer":
                 result = tools.set_layer(arguments["layer_name"])
+            case "rename_layer":
+                result = tools.rename_layer(arguments["old_name"], arguments["new_name"])
             case "set_color":
                 result = tools.set_color(arguments["color_index"])
             case "count_entities":

@@ -170,6 +170,21 @@ def set_layer(layer_name: str) -> str:
     return f"已切換至圖層：{layer_name}"
 
 
+def rename_layer(old_name: str, new_name: str) -> str:
+    """重新命名圖層（例如將中文圖層名稱改為英文，避免 Dynamo 等節點不支援中文）"""
+    acad = get_acad()
+    doc = acad.ActiveDocument
+    layers = doc.Layers
+    try:
+        layer = layers.Item(old_name)
+    except Exception:
+        return f"錯誤：找不到圖層「{old_name}」"
+    if any(l.Name == new_name for l in layers):
+        return f"錯誤：圖層「{new_name}」已存在，無法重新命名"
+    layer.Name = new_name
+    return f"已將圖層「{old_name}」重新命名為「{new_name}」"
+
+
 def set_color(color_index: int) -> str:
     """
     設定目前繪圖顏色（ACI 色碼 1-255）
