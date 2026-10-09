@@ -1,6 +1,6 @@
 # AutoCAD MCP Server
 
-讓 Claude 等 MCP 用戶端透過 Windows COM 介面直接操作執行中的 AutoCAD：開關圖檔、繪製圖元、管理圖層、下指令。另附一支讀取結構平面圖梁／版標籤與尺寸表的腳本。
+讓 Claude 等 MCP 用戶端透過 Windows COM 介面直接操作執行中的 AutoCAD：開關圖檔、繪製圖元、管理圖層、下指令。另附一支讀取結構平面圖梁／版標籤與尺寸表的腳本，以及三個 Claude skill（結構尺寸表轉 Excel、DWG 圖面比較、矽利康用量估算）。
 
 ## 系統需求
 
@@ -47,6 +47,23 @@ pip install -r requirements.txt
 ## 輔助腳本
 
 `read_beams_slabs.py`：連線到目前開啟的結構平面圖，依樓層區間讀出梁、版標籤與 AcDbTable 尺寸表，輸出 `beams_slabs_report.txt`（與腳本同一資料夾）。樓層的 Y 座標區間寫在腳本開頭的 `FLOORS`，請依你的圖面調整。
+
+## Claude Skills
+
+`skills/` 內附三個搭配 AutoCAD 使用的 Claude skill，各自附 `SKILL.md`（觸發條件與流程）與 `scripts/`：
+
+| Skill | 用途 | 需要 AutoCAD MCP |
+|---|---|---|
+| [structural-drawing-to-excel](skills/structural-drawing-to-excel/SKILL.md) | 讀取結構平面圖的尺寸表，輸出各樓層分頁的 Excel 構件清單（大梁、小梁、版、柱），供 Revit / Dynamo 建立族群類型使用 | 是 |
+| [compare-dwg-revisions](skills/compare-dwg-revisions/SKILL.md) | 比較新舊兩版 DWG，忽略僅位移的內容，整理成修改清單 Excel，並產生帶編號標註的 AutoCAD 比較圖 | 否（使用 AutoCAD Core Console） |
+| [silicone-usage-estimate](skills/silicone-usage-estimate/SKILL.md) | 由門窗圖取得各型號尺寸，統計各樓層門窗數量，估算門窗外框與玻璃的矽利康用量 | 是（或 win32com 直連） |
+
+使用方式：把要用的 skill 資料夾複製到 `~/.claude/skills/`（或專案的 `.claude/skills/`），重新啟動 Claude 後，說出 `SKILL.md` 裡列的觸發語句即可。
+
+注意事項：
+- 腳本會讀寫中間檔，預設放在 `<專案根目錄>/outputs/`（`silicone-usage-estimate` 的 `.lsp` 可用環境變數 `SILICONE_OUT_DIR` 改位置，詳見該 skill 的 `SKILL.md`）。
+- `structural-drawing-to-excel` 與 `silicone-usage-estimate` 的範例指令含 `{USER}` 或示意路徑，需換成你自己的路徑。
+- `.lsp` 與 PowerShell 腳本僅在作者環境測試過，AutoCAD 版本不同時請先在測試圖上試跑。
 
 ## ⚠️ 安全注意事項
 
