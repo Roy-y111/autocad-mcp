@@ -133,20 +133,25 @@ def add_mtext(x: float, y: float, text: str, width: float = 100.0, height: float
     return f"已新增多行文字於 ({x},{y})"
 
 
-def run_command(command: str) -> str:
-    """
-    在 AutoCAD 命令列執行指令
-    例如：ZOOM, PAN, REGEN, LAYER 等
-    """
+def _send_command(command: str) -> str:
+    """內部用：送出指令到 AutoCAD 命令列（不受 run_command 啟用開關限制）"""
     acad = get_acad()
     doc = acad.ActiveDocument
     doc.SendCommand(command + "\n")
     return f"已執行命令：{command}"
 
 
+def run_command(command: str) -> str:
+    """
+    在 AutoCAD 命令列執行任意指令（高風險，server 端預設停用）
+    例如：ZOOM, PAN, REGEN, LAYER 等
+    """
+    return _send_command(command)
+
+
 def zoom_extents() -> str:
     """縮放至顯示所有物件"""
-    return run_command("ZOOM E")
+    return _send_command("ZOOM E")
 
 
 def list_layers() -> list[str]:

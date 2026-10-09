@@ -1,5 +1,6 @@
 """AutoCAD MCP 伺服器主體"""
 import json
+import os
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp import types
@@ -8,10 +9,14 @@ from . import tools
 
 app = Server("autocad-mcp")
 
+# run_command 可執行任意 AutoCAD 指令（含載入 LISP），預設關閉。
+# 需要時在 MCP 設定的 env 加上 "AUTOCAD_MCP_ENABLE_RUN_COMMAND": "1"
+RUN_COMMAND_ENABLED = os.environ.get("AUTOCAD_MCP_ENABLE_RUN_COMMAND") == "1"
+
 
 @app.list_tools()
 async def list_tools() -> list[types.Tool]:
-    return [
+    all_tools = [
         types.Tool(
             name="acad_status",
             description="取得 AutoCAD 目前狀態（版本、文件名稱、儲存狀態）",
@@ -184,6 +189,9 @@ async def list_tools() -> list[types.Tool]:
             inputSchema={"type": "object", "properties": {}, "required": []},
         ),
     ]
+    if RUN_COMMAND_ENABLED:
+        return all_tools
+    return [t for t in all_tools if t.name != "run_command"]
 
 
 @app.call_tool()
@@ -228,7 +236,14 @@ async def call_tool(name: str, arguments: dict) -> list[types.TextContent]:
                     arguments.get("height", 2.5),
                 )
             case "run_command":
-                result = tools.run_command(arguments["command"])
+                if not RUN_COMMAND_ENABLED:
+                    result = (
+                        "run_command 已停用（安全考量）。"
+                        "如需啟用，請在 MCP 設定的 env 加入 "
+                        "AUTOCAD_MCP_ENABLE_RUN_COMMAND=1"
+                    )
+                else:
+                    result = tools.run_command(arguments["command"])
             case "zoom_extents":
                 result = tools.zoom_extents()
             case "list_layers":

@@ -42,7 +42,7 @@ pip install -r requirements.txt
 | 繪圖 | `draw_line`、`draw_circle`、`draw_rectangle`、`draw_polyline`、`add_text`、`add_mtext` |
 | 圖層與顏色 | `list_layers`、`set_layer`、`rename_layer`、`set_color` |
 | 檢視與統計 | `zoom_extents`、`count_entities` |
-| 進階 | `run_command`（在 AutoCAD 命令列執行任意指令） |
+| 進階（**預設停用**） | `run_command`（在 AutoCAD 命令列執行任意指令，需手動啟用，見下方） |
 
 ## 輔助腳本
 
@@ -52,7 +52,11 @@ pip install -r requirements.txt
 
 此伺服器等於把你的 AutoCAD 與本機檔案存取權交給 AI，使用前請了解：
 
-- **`run_command` 可執行任意 AutoCAD 指令**，包含載入 LISP、執行腳本等，能力近似於在你電腦上執行程式。
+- **`run_command` 可執行任意 AutoCAD 指令**，包含載入 LISP、執行腳本等，能力近似於在你電腦上執行程式。**此工具預設停用**，不會出現在工具清單中。確定需要時，在 MCP 設定的 `env` 加上 `"AUTOCAD_MCP_ENABLE_RUN_COMMAND": "1"` 並重新啟動：
+
+  ```json
+  "env": { "AUTOCAD_MCP_ENABLE_RUN_COMMAND": "1" }
+  ```
 - **`open_drawing`、`save_drawing` 接受任意路徑**，可讀取或覆寫你有權限的任何位置。
 - **間接提示注入（prompt injection）**：DWG 內的文字、圖層名稱或屬性可能被 AI 當成指令。**請只開啟你信任來源的圖檔。**
 - 建議在執行高風險操作前保持 MCP 用戶端的「逐項核准」設定，並先備份重要圖檔。
