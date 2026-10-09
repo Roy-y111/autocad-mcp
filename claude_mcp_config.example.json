@@ -2,7 +2,7 @@
   "mcpServers": {
     "autocad": {
       "command": "python",
-      "args": ["<project-dir>\\main.py"],
+      "args": ["<專案資料夾完整路徑>\\main.py"],
       "env": {}
     }
   }

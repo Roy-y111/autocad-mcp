@@ -1,4 +1,5 @@
 import sys, io, re
+from pathlib import Path
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 import win32com.client
 
@@ -196,7 +197,8 @@ output_lines.append(f"\n{'='*70}")
 result = "\n".join(output_lines)
 print(result)
 
-with open(r'<project-dir>\beams_slabs_report.txt', 'w', encoding='utf-8') as f:
+REPORT_PATH = Path(__file__).parent / 'beams_slabs_report.txt'
+with open(REPORT_PATH, 'w', encoding='utf-8') as f:
     f.write(result)
 
-print("\n✔ 已儲存至 <project-dir>\\beams_slabs_report.txt")
+print(f"\n✔ 已儲存至 {REPORT_PATH}")

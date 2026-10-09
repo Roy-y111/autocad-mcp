@@ -2,19 +2,47 @@
 __pycache__/
 *.py[cod]
 *.pyo
+.venv/
+venv/
 
-# 輸出/暫存檔案（不需上傳）
-*.txt
-*.json
+# 專案資料 / 客戶圖面與輸出（不可上傳）
+analysis/
+outputs/
+結構尺寸表/
+skill_revision/
+skill_staging/
+
+# CAD / 文件 / 圖片檔
+*.dwg
+*.dxf
+*.dwl
+*.dwl2
+*.bak
+*.sv$
+*.pdf
+*.png
+*.jpg
+*.jpeg
 *.xlsx
+*.xls
 *.csv
 
-# 保留設定範本
-!claude_mcp_config.json
+# 輸出/暫存/傾印檔案
+*.txt
+*.json
+*.err
+*.scr
+*.vbs
+
+# 保留設定範本與依賴清單
+!claude_mcp_config.example.json
 !requirements.txt
 
 # 本機設定（含個人路徑，不上傳）
 .claude/
+claude_mcp_config.json
+.env
+.env.*
 
 # 其他
 .DS_Store
