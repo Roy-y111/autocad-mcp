@@ -64,4 +64,4 @@ pip install -r requirements.txt
 
 ## 授權
 
-尚未指定授權條款。在加入 LICENSE 檔之前，依預設保留所有權利。
+[MIT License](LICENSE)
