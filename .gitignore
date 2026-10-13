@@ -47,3 +47,21 @@ claude_mcp_config.json
 # 其他
 .DS_Store
 Thumbs.db
+
+# 個案工作腳本（含案名如潮州街、愛國東路，不上傳）
+/.agents/
+/express_tools_zh/
+/scripts/
+/SiliconeCalc.lsp
+/batch_extract_floors.py
+/classify_triangles.py
+/dump_*.py
+/extract_a6_master.py
+/extract_chaozhou_struct.py
+/extract_columns_mcp.py
+/find_wb5.py
+/fix_*.py
+/gen_*.py
+/parse_master.py
+/read_floors.py
+*chaozhou*
