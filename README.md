@@ -1,4 +1,5 @@
 # AutoCAD MCP Server
+**繁體中文** | [English](README.en.md)
 
 讓 Claude 等 MCP 用戶端透過 Windows COM 介面直接操作執行中的 AutoCAD：開關圖檔、繪製圖元、管理圖層、下指令。另附一支讀取結構平面圖梁／版標籤與尺寸表的腳本，以及三個 Claude skill（結構尺寸表轉 Excel、DWG 圖面比較、矽利康用量估算）。
 
